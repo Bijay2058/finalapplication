@@ -15,6 +15,7 @@ class LoginScreen extends StatefulWidget{
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final GlobalKey<NavigatorState> _loginNavigatorKey = GlobalKey<NavigatorState>();
   //FORM KEY
 
   final _formKey = GlobalKey<FormState>();

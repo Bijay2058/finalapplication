@@ -10,6 +10,7 @@ import 'package:untitled2/widgets/bottom_navigation_bar.dart';
 
 
 class discoverscreen extends StatefulWidget {
+
   static const String id='discover_screen';
   const discoverscreen({Key? key}) : super(key: key);
 
@@ -18,7 +19,7 @@ class discoverscreen extends StatefulWidget {
 }
 
 class _discoverscreenState extends State<discoverscreen> {
-
+  final GlobalKey<NavigatorState> _newsNavigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {

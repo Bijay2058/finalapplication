@@ -2,10 +2,14 @@
 
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:untitled2/list_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../model/model.dart';
 
 class InfoPage extends StatefulWidget {
   static const String id = 'info_page';
@@ -22,8 +26,30 @@ class _InfoPageState extends State<InfoPage> {
   int selectedIndex = -1;
   int selectedIndex1  = -1;
   var episode=1,season=1;
+  final _auth = FirebaseAuth.instance;
 
-  getepisodes() async{
+  Future<void> activeuser() async {
+    await FirebaseFirestore.instance.collection("users").doc(user?.uid)
+        .get()
+        .then((value) {
+      currentuser = UserModel.fromMap(value.data());
+    });
+    setState(() {
+
+
+    });
+  }
+
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel currentuser = UserModel();
+
+
+
+
+
+
+
+    getepisodes() async{
 
     var response = await Dio().get("https://api.themoviedb.org/3/tv/${movie_id}?api_key=231880c8395d2256effb0912ef9f9888");
 
@@ -80,7 +106,21 @@ class _InfoPageState extends State<InfoPage> {
                                     if(laterMovieProviderList.names.contains(name)!=true)
                                       {
                                     laterMovieProviderList.add(name,'0','0',poster,episode.toString());
-                                  }
+
+
+                                    String? userId = user?.uid;
+
+                                    // Here we get the document reference for current user
+
+                                    DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(userId);
+
+
+
+                                    CollectionReference laterMoviesRef = userRef.collection('Later');
+
+                                    laterMoviesRef.add({'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString()});
+
+                                      }
                                     else
                                       {
 
@@ -252,6 +292,28 @@ class _InfoPageState extends State<InfoPage> {
                                           name, (selectedIndex + 1).toString(),
                                           (selectedIndex1 + 1).toString(),
                                           poster, episode.toString());
+
+
+                                      FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+                                      User? user = _auth.currentUser;
+
+
+
+
+
+
+                                      String? userId = user?.uid;
+
+                                      // Here we get the document reference for current user
+
+                                      DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(userId);
+
+
+
+                                      CollectionReference completedMoviesRef = userRef.collection('Completed');
+
+                                      completedMoviesRef.add({'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString()});
+
                                     }
 
                                     if(selectedIndex1 + 1  != episode){
@@ -261,6 +323,20 @@ class _InfoPageState extends State<InfoPage> {
                                           name, (selectedIndex + 1).toString(),
                                           (selectedIndex1 + 1).toString(),
                                           poster, episode.toString());
+
+
+                                      String? userId = user?.uid;
+
+                                      // Here we get the document reference for current user
+
+                                      DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(userId);
+
+
+
+                                      CollectionReference watchingMoviesRef = userRef.collection('Watching');
+
+                                      watchingMoviesRef.add({'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString()});
+
                                     }
                                   },
                                   style: TextButton.styleFrom(

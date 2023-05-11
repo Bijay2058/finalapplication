@@ -18,6 +18,7 @@ class RegistrationScreen extends StatefulWidget{
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final GlobalKey<NavigatorState> _registrationNavigatorKey = GlobalKey<NavigatorState>();
 
   //our form key
   final _formKey = GlobalKey<FormState>();
@@ -269,7 +270,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
     await firebaseFirestore.collection('users').doc(user.uid).set(userModel.toMap());
 
-     context.go('/l');
+
+
+    context.go('/l');
 
 
 

@@ -1,29 +1,31 @@
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:untitled2/login.dart';
-import 'package:untitled2/register.dart';
-import 'package:untitled2/screens/discover_screen.dart';
-import 'screens/home.dart';
-import 'screens/news_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
+import 'package:untitled2/login.dart';
+import 'package:untitled2/register.dart';
+import 'package:untitled2/screens/home.dart';
+import 'package:untitled2/screens/news_screen.dart';
+import 'GenreTab.dart';
+import 'screens/discover_screen.dart';
 import 'list_provider.dart';
+import "package:provider/provider.dart";
 
-
-
-void main() async{
-   WidgetsFlutterBinding.ensureInitialized();
-   await Firebase.initializeApp();
-   runApp( MyApp());
+void main() async {
+  usePathUrlStrategy();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   // private navigators
-  final _rootNavigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
   final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
   @override
@@ -60,39 +62,50 @@ class MyApp extends StatelessWidget {
         ShellRoute(
           navigatorKey: _shellNavigatorKey,
           builder: (context, state, child) {
-            return ScaffoldWithBottomNavBar(tabs: tabs, child: child);
+           if(state.location =='/l')
+             {
+               return child;
+             }
+           else if (state.location=='/r')
+             {
+               return child;
+             }
+           else
+             {
+               return ScaffoldWithBottomNavBar(tabs: tabs, child: child);
+             }
           },
           routes: [
             GoRoute(
                 path: '/l',
                 pageBuilder: (context, state) =>
-                    NoTransitionPage(key: state.pageKey, child: LoginScreen(),)
+                    NoTransitionPage(key:  UniqueKey(), child: LoginScreen(),)
 
             ),
 
             GoRoute(
                 path: '/r',
                 pageBuilder: (context, state) =>
-                    NoTransitionPage(key: state.pageKey, child: RegistrationScreen(),)
+                    NoTransitionPage(key:  UniqueKey(), child: RegistrationScreen(),)
 
             ),
             // Products
             GoRoute(
                 path: '/a',
                 pageBuilder: (context, state) =>
-                    NoTransitionPage(key: state.pageKey, child: const HomeScreen(),)
+                    NoTransitionPage(key:  UniqueKey(), child: const HomeScreen(),)
 
             ),
             // Shopping Cart
             GoRoute(
               path: '/b',
               pageBuilder: (context, state) =>
-                  NoTransitionPage(key: state.pageKey, child: const NewsScreen()),
+                  NoTransitionPage(key:  UniqueKey(), child: const NewsScreen()),
             ),
             GoRoute(
               path: '/c',
               pageBuilder: (context, state) =>
-                  NoTransitionPage(key: state.pageKey, child: const discoverscreen()),
+                  NoTransitionPage(key:   UniqueKey(), child: const discoverscreen()),
             ),
 
 
@@ -172,5 +185,3 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
     );
   }
 }
-
-

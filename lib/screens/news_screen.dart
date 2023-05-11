@@ -3,6 +3,7 @@ import 'package:untitled2/widgets/bottom_navigation_bar.dart';
 import 'package:untitled2/screens/info_page.dart';
 
 class NewsScreen extends StatefulWidget {
+
   static const String id = 'news_screen';
   const NewsScreen({Key? key}) : super(key: key);
 
@@ -11,6 +12,7 @@ class NewsScreen extends StatefulWidget {
 }
 
 class _NewsScreenState extends State<NewsScreen> {
+  final GlobalKey<NavigatorState> _newsNavigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

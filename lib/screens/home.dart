@@ -16,6 +16,7 @@ import 'package:untitled2/widgets/bottom_navigation_bar.dart';
 import 'info_page.dart';
 class HomeScreen extends StatefulWidget {
 
+
   static const String id='home';
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -24,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-
+  final GlobalKey<NavigatorState> _homeNavigatorKey = GlobalKey<NavigatorState>();
   Future<void> activeuser() async {
     await FirebaseFirestore.instance.collection("users").doc(user?.uid)
         .get()
@@ -40,6 +41,32 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel currentuser = UserModel();
 
+  void retrieveCompletedMoviesData() async {
+    // Get the current user's ID
+    String? userId = FirebaseAuth.instance.currentUser?.uid;
+
+    // Retrieve the reference to the user's document
+    DocumentReference userRef = FirebaseFirestore.instance.collection('users').doc(userId);
+
+    // Retrieve the reference to the completedmovielist subcollection within the user's document
+    CollectionReference completedMoviesRef = userRef.collection('completedmovielist');
+
+    // Retrieve the documents from the completedmovielist subcollection
+    QuerySnapshot snapshot = await completedMoviesRef.get();
+
+    // Iterate over the documents and extract the movie data
+    List<Object?> moviesData = [];
+    snapshot.docs.forEach((doc) {
+      Object? movie = doc.data();
+      moviesData.add(movie);
+    });
+
+    // Example: Print the movie names
+    moviesData.forEach((movie) {
+      print((movie as Map<String, dynamic>)['movieName']);
+    });
+  }
+
 
   late TabController _tabController;
 
@@ -47,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     activeuser();
+
     _tabController = TabController(length: 3, vsync: this);
     _tabController.animateTo(2);
   }
@@ -193,6 +221,7 @@ class _MyContainerState extends State<MyContainer> {
   int count =100000000;
   @override
   Widget build(BuildContext context) {
+
     return Consumer3<MovieListProvider,completedMovieListProvider,laterMovieListProvider>(builder:((context,movieProviderModel,completedMovieProviderModel,laterMovieProviderModel,child)=>TextButton(
       onPressed: () => Navigator.pushNamed(context, InfoPage.id),
       child: Container(
@@ -256,7 +285,7 @@ class _MyContainerState extends State<MyContainer> {
 
                               laterMovieProviderModel.pop(widget.text,'0','0',widget.image,widget.totalepisode);
                               GoRouter.of(context).replace('/a');
-                              Navigator.pushNamed(context,HomeScreen.id);
+
 
                     }
 
@@ -269,7 +298,8 @@ class _MyContainerState extends State<MyContainer> {
 
                         completedMovieProviderModel.pop(widget.text,widget.watchedseason,widget.watchedepisode,widget.image,widget.totalepisode);
                         GoRouter.of(context).replace('/a');
-                        Navigator.pushNamed(context,HomeScreen.id);
+
+
 
                       }
 
