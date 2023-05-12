@@ -312,7 +312,7 @@ class _InfoPageState extends State<InfoPage> {
 
                                       CollectionReference completedMoviesRef = userRef.collection('Completed');
 
-                                      completedMoviesRef.add({'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString()});
+                                      completedMoviesRef.add({'imageUrl':poster,'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString(),});
 
                                     }
 
@@ -335,7 +335,7 @@ class _InfoPageState extends State<InfoPage> {
 
                                       CollectionReference watchingMoviesRef = userRef.collection('Watching');
 
-                                      watchingMoviesRef.add({'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString()});
+                                      watchingMoviesRef.add({'imageUrl':poster,'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString()});
 
                                     }
                                   },
