@@ -49,6 +49,7 @@ class _InfoPageState extends State<InfoPage> {
 
 
 
+
     getepisodes() async{
 
     var response = await Dio().get("https://api.themoviedb.org/3/tv/${movie_id}?api_key=231880c8395d2256effb0912ef9f9888");
@@ -71,6 +72,43 @@ class _InfoPageState extends State<InfoPage> {
     }
 
   }
+ List<String> laterMoviesCollection =[];
+  Future<void> fetchLaterMoviesCollection() async {
+     List <String> latermovies=[];
+    CollectionReference collectionRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection('Later');
+
+
+    QuerySnapshot querySnapshot = await collectionRef.get();
+
+
+
+    querySnapshot.docs.forEach((doc) {
+      var data = (doc.data() as Map<String, dynamic>)?['movieName'];
+      latermovies.add(data);
+      print(latermovies);
+
+      setState(() {
+        laterMoviesCollection = latermovies;
+      });
+  });
+         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -78,6 +116,8 @@ class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
     getepisodes();
+    fetchLaterMoviesCollection();
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(17, 26, 41, 1),
       body: Consumer3<MovieListProvider,completedMovieListProvider,laterMovieListProvider>(
@@ -102,10 +142,14 @@ class _InfoPageState extends State<InfoPage> {
                             child: Column(
                               children: [
                                 InkWell(
-                                  onTap:(){
-                                    if(laterMovieProviderList.names.contains(name)!=true)
+                                  onTap:() async {
+
+
+
+                                    if(laterMoviesCollection.contains (name) !=true)
                                       {
-                                    laterMovieProviderList.add(name,'0','0',poster,episode.toString());
+
+
 
 
                                     String? userId = user?.uid;
@@ -118,20 +162,38 @@ class _InfoPageState extends State<InfoPage> {
 
                                     CollectionReference laterMoviesRef = userRef.collection('Later');
 
-                                    laterMoviesRef.add({'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString()});
+                                    laterMoviesRef.add({'imageUrl':poster,'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString()});
 
                                       }
                                     else
                                       {
 
-                                        laterMovieProviderList.pop(name,'0','0',poster,episode.toString());
+
+                                        CollectionReference collectionRef = FirebaseFirestore.instance
+                                            .collection('users')
+                                            .doc(FirebaseAuth.instance.currentUser?.uid)
+                                            .collection('Later');
+
+
+                                        QuerySnapshot querySnapshot = await collectionRef.get();
+
+
+
+                                        querySnapshot.docs.forEach((doc) {
+                                          var data = doc.data() as Map<String, dynamic>;
+                                          if (data['movieName'] == name) {
+                                            doc.reference.delete();
+                                          }
+
+                                        });
+
 
                                       }
                                     },
                                   child: Icon(
                                     Icons.movie,
                                     size: 30.0,
-                                    color: laterMovieProviderList.names.contains(name)==true?Colors.blue:Colors.white,
+                                    color: laterMoviesCollection.contains(name)==true?Colors.blue:Colors.white,
                                   ),
                                 ),
                                 Text('Watch Later',

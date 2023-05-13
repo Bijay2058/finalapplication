@@ -40,12 +40,12 @@ class MyApp extends StatelessWidget {
       const ScaffoldWithNavBarTabItem(
         initialLocation: '/b',
         icon: Icon(LucideIcons.newspaper),
-        label: 'Section B',
+        label: 'Recommendation',
       ),
       const ScaffoldWithNavBarTabItem(
         initialLocation: '/c',
         icon: Icon(LucideIcons.compass),
-        label: 'discover ',
+        label: 'Discover ',
       ),
       const ScaffoldWithNavBarTabItem(
         initialLocation: '/d',
@@ -180,7 +180,7 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
         onTap: (index) => _onItemTapped(context, index),
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.blue,
-        backgroundColor: Color.fromRGBO(17, 26, 41, 0.9),
+        backgroundColor: Color.fromRGBO(17, 26, 41, 1),
       ),
     );
   }

@@ -52,6 +52,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   List<String> dataList03 = [];
   List<String> dataList04 = [];
 
+  List<String> dataList00 = [];
+  List<String> dataList001 = [];
+  List<String> dataList002 = [];
+  List<String> dataList003 = [];
+  List<String> dataList004 = [];
+
+
   void fetchDataFromwatchingCollection() async {
     CollectionReference collectionRef = FirebaseFirestore.instance
         .collection('users')
@@ -109,6 +116,60 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     print(dataList02);
 
   }
+  void fetchDataFromLaterCollection() async {
+    CollectionReference collectionRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc('${FirebaseAuth.instance.currentUser?.uid}')
+        .collection('Later');
+
+    QuerySnapshot querySnapshot = await collectionRef.get();
+    List<String> posterdata = [];
+    List<String> movieNamedata = [];
+    List<String> watchedEpisodesdata = [];
+    List<String> watchedSeasonsdata = [];
+    List<String> totalEpisodesdata = [];
+
+    if (querySnapshot != null) {
+      querySnapshot.docs.forEach((doc) {
+        var fieldValue = (doc?.data() as Map<String, dynamic>)?['movieName'];
+        if (fieldValue != null) {
+          movieNamedata.add(fieldValue.toString());
+        }
+
+        var fieldValue4 = (doc?.data() as Map<String, dynamic>)?['imageUrl'];
+        if (fieldValue4 != null) {
+          posterdata.add(fieldValue4.toString());
+        }
+
+        var fieldValue1 = (doc?.data() as Map<String, dynamic>)?['watchedepisodes'];
+        if (fieldValue1 != null) {
+          watchedEpisodesdata.add(fieldValue1.toString());
+        }
+
+        var fieldValue2 = (doc?.data() as Map<String, dynamic>)?['watchedseasons'];
+        if (fieldValue2 != null) {
+          watchedSeasonsdata.add(fieldValue2.toString());
+        }
+
+        var fieldValue3 = (doc?.data() as Map<String, dynamic>)?['totalepisodes'];
+        if (fieldValue3 != null) {
+          totalEpisodesdata.add(fieldValue3.toString());
+        }
+      });
+    }
+    if(mounted) {
+      setState(() {
+        dataList00 = movieNamedata;
+        dataList001 = watchedEpisodesdata;
+        dataList002 = watchedSeasonsdata;
+        dataList003 = totalEpisodesdata;
+        dataList004 = posterdata;
+      });
+    }
+
+
+  }
+
 
 
   void fetchDataFromcompletedCollection() async {
@@ -177,6 +238,7 @@ if(mounted) {
     activeuser();
     fetchDataFromcompletedCollection();
     fetchDataFromwatchingCollection();
+    fetchDataFromLaterCollection();
 
     _tabController = TabController(length: 3, vsync: this);
     _tabController.animateTo(2);
@@ -199,7 +261,7 @@ if(mounted) {
       return Drawer(
 
           child:Container(
-            color:Color.fromRGBO(17, 26, 41, 0.9) ,
+            color:Color.fromRGBO(17, 26, 41, 1),
               padding: EdgeInsets.fromLTRB(10, 60, 0, 0),
 
               child: Column(
@@ -283,7 +345,22 @@ if(mounted) {
 
 
 
-          /*  ListView.builder(itemCount: completedMovieProviderModel.names.length,itemBuilder: (BuildContext context, int index) {
+            ListView.builder(itemCount: dataList00.length,itemBuilder: (BuildContext context, int index) {
+              return  TextButton(
+                onPressed: () => Navigator.pushNamed(context, InfoPage.id),
+                child: Column(
+                  children: [
+                    MyContainer(image:dataList004[index].toString(), text:  dataList00[index],watchedepisode: dataList001[index],totalepisode: dataList003[index],watchedseason: dataList002[index],)
+
+                  ],
+                ),
+              );
+            }),
+
+
+
+
+            /*  ListView.builder(itemCount: completedMovieProviderModel.names.length,itemBuilder: (BuildContext context, int index) {
               return  TextButton(
                 onPressed: () => Navigator.pushNamed(context, InfoPage.id),
                 child: Column(
@@ -299,7 +376,7 @@ if(mounted) {
 
 
 
-            ListView.builder(itemCount: laterMovieProviderModel.names.length,itemBuilder: (BuildContext context, int index) {
+          /*  ListView.builder(itemCount: laterMovieProviderModel.names.length,itemBuilder: (BuildContext context, int index) {
               return  TextButton(
                 onPressed: () => Navigator.pushNamed(context, InfoPage.id),
                 child: Column(
@@ -309,7 +386,7 @@ if(mounted) {
                   ],
                 ),
               );
-            }),
+            }),*/
 
 
 
@@ -425,8 +502,15 @@ class _MyContainerState extends State<MyContainer> {
                         .doc(FirebaseAuth.instance.currentUser?.uid)
                         .collection('Watching');
 
+                    CollectionReference collectionRef2= FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(FirebaseAuth.instance.currentUser?.uid)
+                        .collection('Later');
+
+
                     QuerySnapshot querySnapshot = await collectionRef.get();
                     QuerySnapshot querySnapshot1 = await collectionRef1.get();
+                    QuerySnapshot querySnapshot2 = await collectionRef2.get();
 
                     querySnapshot.docs.forEach((doc) {
                       var data = doc.data() as Map<String, dynamic>;
@@ -441,7 +525,15 @@ class _MyContainerState extends State<MyContainer> {
                         doc.reference.delete();
                       }
                     });
-                        GoRouter.of(context).refresh();
+
+                    querySnapshot2.docs.forEach((doc) {
+                      var data = doc.data() as Map<String, dynamic>;
+                      if (data['movieName'] == widget.text) {
+                        doc.reference.delete();
+                      }
+                    });
+
+                    GoRouter.of(context).refresh();
 
 
 
