@@ -1,3 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 import 'package:untitled2/genre.dart';
 import 'package:untitled2/shows.dart';
 import 'package:untitled2/GenreTab.dart';
@@ -8,6 +11,48 @@ import 'package:untitled2/shows.dart';
 import 'package:untitled2/screens/home.dart';
 import 'package:untitled2/widgets/bottom_navigation_bar.dart';
 
+import '../model/model.dart';
+
+User? user = FirebaseAuth.instance.currentUser;
+UserModel currentuser = UserModel();
+
+Widget drawer(BuildContext context) {
+  {
+    Future<void> signOut() async {
+      await FirebaseAuth.instance.signOut();
+      GoRouter.of(context).replace('/a');
+    }
+
+
+    return Drawer(
+
+        child:Container(
+            color:Color.fromRGBO(17, 26, 41, 1),
+            padding: EdgeInsets.fromLTRB(10, 60, 0, 0),
+
+            child: Column(
+
+              children: <Widget>[ListTile(
+                  leading: CircleAvatar(
+                      child: Icon(CupertinoIcons.person, color: Colors.white)),
+                  title: Text('${currentuser.username}',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),)
+
+              ),
+                SizedBox(height: 40),
+
+
+                ListTile(leading:Icon(Icons.recommend,color: Colors.white,),title:Text("Recommendation",style:TextStyle(color:Colors.white,)),onTap: (){},),
+                ListTile(leading:Icon(Icons.favorite,color: Colors.white,),title:Text("Favourites",style:TextStyle(color:Colors.white)),onTap: (){},),
+                ListTile(leading:Icon(Icons.logout,color: Colors.white,),title:Text("Logout",style: TextStyle(color: Colors.white,)),onTap: (){signOut();},),
+
+              ],)
+        )
+
+
+
+    );
+  }
+}
 
 class discoverscreen extends StatefulWidget {
 
@@ -25,8 +70,9 @@ class _discoverscreenState extends State<discoverscreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(length: 4,
            child:Scaffold(
+               drawer:drawer(context),
     appBar: AppBar(
-        leading:Icon(Icons.menu),
+
     title: Text("Discover"),
     actions: <Widget>[IconButton(onPressed: ()
     {
@@ -88,3 +134,5 @@ class _discoverscreenState extends State<discoverscreen> {
     );
   }
 }
+
+
