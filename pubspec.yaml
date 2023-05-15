@@ -47,6 +47,7 @@ dependencies:
   provider:
   dio:
   go_router:
+  cached_network_image: ^3.1.0
 
 
 

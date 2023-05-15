@@ -4,35 +4,25 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:untitled2/model/model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
-
-
-
-
 import 'login.dart';
-
 class RegistrationScreen extends StatefulWidget{
   const RegistrationScreen({super.key});
 
   @override
   State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
-
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final GlobalKey<NavigatorState> _registrationNavigatorKey = GlobalKey<NavigatorState>();
 
   //our form key
   final _formKey = GlobalKey<FormState>();
-
   //editing Controller
-
   final userNameEditingController = new TextEditingController();
   final emailEditingController = new TextEditingController();
   final passwordEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
 
   final _auth = FirebaseAuth.instance;
-
-
   @override
   Widget build(BuildContext context) {
     final userName = TextFormField(
@@ -50,7 +40,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           return null;
         }
       },
-
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.account_circle),
@@ -64,8 +53,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
       ),
     );
-
-
     final emailField = TextFormField(
       autofocus: false,
       controller: emailEditingController,
@@ -99,8 +86,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
       ),
     );
-
-
     final passwordField = TextFormField(
       autofocus: false,
       controller: passwordEditingController,
@@ -135,7 +120,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
       ),
     );
-
     final confirmPasswordField = TextFormField(
       autofocus: false,
       controller: confirmPasswordEditingController,
@@ -165,7 +149,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
       ),
     );
-
     final registerbutton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
@@ -183,8 +166,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           style: TextStyle(
               fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
       ),);
-
-
     return Scaffold(
         backgroundColor: Color(0xFF111A29),
         appBar: AppBar(
@@ -273,12 +254,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
 
     context.go('/l');
-
-
-
-
-
-
   }
 
 

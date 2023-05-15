@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:untitled2/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'screens/home.dart';
-
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-
-
 
 class LoginScreen extends StatefulWidget{
   @override
@@ -17,15 +13,11 @@ class LoginScreen extends StatefulWidget{
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<NavigatorState> _loginNavigatorKey = GlobalKey<NavigatorState>();
   //FORM KEY
-
   final _formKey = GlobalKey<FormState>();
 
   //CONTROLLER
-
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-
   @override
   Widget build(BuildContext context) {
     final emailField = TextFormField(
@@ -64,7 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
       ),
     );
-
     final passwordField = TextFormField(
       autofocus: false,
       controller: passwordController,
@@ -124,7 +115,6 @@ class _LoginScreenState extends State<LoginScreen> {
           style: TextStyle(
               fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
       ),);
-
 
     return Scaffold(
         backgroundColor: Color(0xFF111A29),

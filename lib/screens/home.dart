@@ -64,36 +64,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         .collection('users')
         .doc('${FirebaseAuth.instance.currentUser?.uid}')
         .collection('Watching');
-
     QuerySnapshot querySnapshot = await collectionRef.get();
     List<String> posterdata = [];
     List<String> movieNamedata = [];
     List<String> watchedEpisodesdata = [];
     List<String> watchedSeasonsdata = [];
     List<String> totalEpisodesdata = [];
-
     if (querySnapshot != null) {
       querySnapshot.docs.forEach((doc) {
         var fieldValue = (doc?.data() as Map<String, dynamic>)?['movieName'];
         if (fieldValue != null) {
           movieNamedata.add(fieldValue.toString());
         }
-
         var fieldValue4 = (doc?.data() as Map<String, dynamic>)?['imageUrl'];
         if (fieldValue4 != null) {
           posterdata.add(fieldValue4.toString());
         }
-
         var fieldValue1 = (doc?.data() as Map<String, dynamic>)?['watchedepisodes'];
         if (fieldValue1 != null) {
           watchedEpisodesdata.add(fieldValue1.toString());
         }
-
         var fieldValue2 = (doc?.data() as Map<String, dynamic>)?['watchedseasons'];
         if (fieldValue2 != null) {
           watchedSeasonsdata.add(fieldValue2.toString());
         }
-
         var fieldValue3 = (doc?.data() as Map<String, dynamic>)?['totalepisodes'];
         if (fieldValue3 != null) {
           totalEpisodesdata.add(fieldValue3.toString());
@@ -110,10 +104,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       });
     }
 
-    print(dataList04);
-    print(dataList04);
-    print(dataList0);
-    print(dataList02);
+
 
   }
   void fetchDataFromLaterCollection() async {
@@ -121,36 +112,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         .collection('users')
         .doc('${FirebaseAuth.instance.currentUser?.uid}')
         .collection('Later');
-
     QuerySnapshot querySnapshot = await collectionRef.get();
     List<String> posterdata = [];
     List<String> movieNamedata = [];
     List<String> watchedEpisodesdata = [];
     List<String> watchedSeasonsdata = [];
     List<String> totalEpisodesdata = [];
-
     if (querySnapshot != null) {
       querySnapshot.docs.forEach((doc) {
         var fieldValue = (doc?.data() as Map<String, dynamic>)?['movieName'];
         if (fieldValue != null) {
           movieNamedata.add(fieldValue.toString());
         }
-
         var fieldValue4 = (doc?.data() as Map<String, dynamic>)?['imageUrl'];
         if (fieldValue4 != null) {
           posterdata.add(fieldValue4.toString());
         }
-
         var fieldValue1 = (doc?.data() as Map<String, dynamic>)?['watchedepisodes'];
         if (fieldValue1 != null) {
           watchedEpisodesdata.add(fieldValue1.toString());
         }
-
         var fieldValue2 = (doc?.data() as Map<String, dynamic>)?['watchedseasons'];
         if (fieldValue2 != null) {
           watchedSeasonsdata.add(fieldValue2.toString());
         }
-
         var fieldValue3 = (doc?.data() as Map<String, dynamic>)?['totalepisodes'];
         if (fieldValue3 != null) {
           totalEpisodesdata.add(fieldValue3.toString());
@@ -169,44 +154,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
 
   }
-
-
-
   void fetchDataFromcompletedCollection() async {
     CollectionReference collectionRef = FirebaseFirestore.instance
         .collection('users')
         .doc('${FirebaseAuth.instance.currentUser?.uid}')
         .collection('Completed');
-
     QuerySnapshot querySnapshot = await collectionRef.get();
     List<String> posterdata = [];
     List<String> movieNamedata = [];
     List<String> watchedEpisodesdata = [];
     List<String> watchedSeasonsdata = [];
     List<String> totalEpisodesdata = [];
-
     if (querySnapshot != null) {
       querySnapshot.docs.forEach((doc) {
         var fieldValue = (doc?.data() as Map<String, dynamic>)?['movieName'];
         if (fieldValue != null) {
           movieNamedata.add(fieldValue.toString());
         }
-
         var fieldValue4 = (doc?.data() as Map<String, dynamic>)?['imageUrl'];
         if (fieldValue4 != null) {
           posterdata.add(fieldValue4.toString());
         }
-
         var fieldValue1 = (doc?.data() as Map<String, dynamic>)?['watchedepisodes'];
         if (fieldValue1 != null) {
           watchedEpisodesdata.add(fieldValue1.toString());
         }
-
         var fieldValue2 = (doc?.data() as Map<String, dynamic>)?['watchedseasons'];
         if (fieldValue2 != null) {
           watchedSeasonsdata.add(fieldValue2.toString());
         }
-
         var fieldValue3 = (doc?.data() as Map<String, dynamic>)?['totalepisodes'];
         if (fieldValue3 != null) {
           totalEpisodesdata.add(fieldValue3.toString());
@@ -318,19 +294,6 @@ if(mounted) {
               );
             }),
 
-          /*  ListView.builder(itemCount: movieProviderModel.names.length,itemBuilder: (BuildContext context, int index) {
-              return  TextButton(
-                onPressed: () => Navigator.pushNamed(context, InfoPage.id),
-                child: Column(
-                  children: [
-                    MyContainer(image:movieProviderModel.posters[index], text:  movieProviderModel.names[index],watchedepisode: movieProviderModel.watchedepisodes[index],totalepisode: movieProviderModel.totalepisodes[index],watchedseason: movieProviderModel.watchedseasons[index],)
-
-                  ],
-                ),
-              );
-            }),*/
-
-
             ListView.builder(itemCount: dataList.length,itemBuilder: (BuildContext context, int index) {
               return  TextButton(
                 onPressed: () => Navigator.pushNamed(context, InfoPage.id),
@@ -342,9 +305,6 @@ if(mounted) {
                 ),
               );
             }),
-
-
-
             ListView.builder(itemCount: dataList00.length,itemBuilder: (BuildContext context, int index) {
               return  TextButton(
                 onPressed: () => Navigator.pushNamed(context, InfoPage.id),

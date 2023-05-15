@@ -57,13 +57,13 @@ class _InfoPageState extends State<InfoPage> {
     if(response.statusCode==200)
     {
 
-
-      setState((){
-        season = response.data["number_of_seasons"];
-        episode = response.data["number_of_episodes"];
+      if(mounted) {
+        setState(() {
+          season = response.data["number_of_seasons"];
+          episode = response.data["number_of_episodes"];
+        }
+        );
       }
-      );
-
 
     }
     else
@@ -162,7 +162,7 @@ class _InfoPageState extends State<InfoPage> {
 
                                     CollectionReference laterMoviesRef = userRef.collection('Later');
 
-                                    laterMoviesRef.add({'imageUrl':poster,'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString()});
+                                    laterMoviesRef.add({'id':movie_id,'imageUrl':poster,'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString()});
 
                                       }
                                     else
@@ -374,7 +374,7 @@ class _InfoPageState extends State<InfoPage> {
 
                                       CollectionReference completedMoviesRef = userRef.collection('Completed');
 
-                                      completedMoviesRef.add({'imageUrl':poster,'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString(),});
+                                      completedMoviesRef.add({'id':movie_id,'imageUrl':poster,'movieName': name,"totalepisodes":episode.toString(),"watchedseasons":(selectedIndex+1).toString(),'watchedepisodes':(selectedIndex1+1).toString(),});
 
                                     }
 

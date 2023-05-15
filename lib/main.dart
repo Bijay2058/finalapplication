@@ -1,4 +1,3 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +9,7 @@ import 'package:untitled2/register.dart';
 import 'package:untitled2/screens/home.dart';
 import 'package:untitled2/screens/news_screen.dart';
 import 'GenreTab.dart';
+import 'connect.dart';
 import 'screens/discover_screen.dart';
 import 'list_provider.dart';
 import "package:provider/provider.dart";
@@ -25,14 +25,14 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   // private navigators
-  final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> _rootNavigatorKey =
+      GlobalKey<NavigatorState>();
   final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     final tabs = [
       const ScaffoldWithNavBarTabItem(
-
         initialLocation: '/a',
         icon: Icon(Icons.home),
         label: 'Home',
@@ -62,60 +62,58 @@ class MyApp extends StatelessWidget {
         ShellRoute(
           navigatorKey: _shellNavigatorKey,
           builder: (context, state, child) {
-           if(state.location =='/l')
-             {
-               return child;
-             }
-           else if (state.location=='/r')
-             {
-               return child;
-             }
-           else
-             {
-               return ScaffoldWithBottomNavBar(tabs: tabs, child: child);
-             }
+            if (state.location == '/l') {
+              return child;
+            } else if (state.location == '/r') {
+              return child;
+            } else {
+              return ScaffoldWithBottomNavBar(tabs: tabs, child: child);
+            }
           },
           routes: [
             GoRoute(
                 path: '/l',
-                pageBuilder: (context, state) =>
-                    NoTransitionPage(key:  UniqueKey(), child: LoginScreen(),)
-
-            ),
+                pageBuilder: (context, state) => NoTransitionPage(
+                      key: UniqueKey(),
+                      child: LoginScreen(),
+                    )),
 
             GoRoute(
                 path: '/r',
-                pageBuilder: (context, state) =>
-                    NoTransitionPage(key:  UniqueKey(), child: RegistrationScreen(),)
-
-            ),
+                pageBuilder: (context, state) => NoTransitionPage(
+                      key: UniqueKey(),
+                      child: RegistrationScreen(),
+                    )),
             // Products
             GoRoute(
                 path: '/a',
-                pageBuilder: (context, state) =>
-                    NoTransitionPage(key:  UniqueKey(), child: const HomeScreen(),)
-
-            ),
+                pageBuilder: (context, state) => NoTransitionPage(
+                      key: UniqueKey(),
+                      child: const HomeScreen(),
+                    )),
             // Shopping Cart
             GoRoute(
               path: '/b',
-              pageBuilder: (context, state) =>
-                  NoTransitionPage(key:  UniqueKey(), child: const NewsScreen()),
+              pageBuilder: (context, state) => NoTransitionPage(
+                  key: UniqueKey(), child:  MyWidget()),
             ),
             GoRoute(
               path: '/c',
-              pageBuilder: (context, state) =>
-                  NoTransitionPage(key:   UniqueKey(), child: const discoverscreen()),
+              pageBuilder: (context, state) => NoTransitionPage(
+                  key: UniqueKey(), child: const discoverscreen()),
             ),
-
-
           ],
         ),
       ],
     );
 
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context)=>MovieListProvider()),ChangeNotifierProvider(create: (context)=>completedMovieListProvider()),ChangeNotifierProvider(create: (context)=>laterMovieListProvider()),],
+      providers: [
+        ChangeNotifierProvider(create: (context) => MovieListProvider()),
+        ChangeNotifierProvider(
+            create: (context) => completedMovieListProvider()),
+        ChangeNotifierProvider(create: (context) => laterMovieListProvider()),
+      ],
       child: MaterialApp.router(
         routerConfig: goRouter,
         debugShowCheckedModeBanner: false,
@@ -136,8 +134,6 @@ class ScaffoldWithNavBarTabItem extends BottomNavigationBarItem {
   final String initialLocation;
 }
 
-
-
 class ScaffoldWithBottomNavBar extends StatefulWidget {
   const ScaffoldWithBottomNavBar(
       {Key? key, required this.child, required this.tabs})
@@ -153,7 +149,7 @@ class ScaffoldWithBottomNavBar extends StatefulWidget {
 class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
   int _locationToTabIndex(String location) {
     final index =
-    widget.tabs.indexWhere((t) => location.startsWith(t.initialLocation));
+        widget.tabs.indexWhere((t) => location.startsWith(t.initialLocation));
     // if index not found (-1), return 0
     return index < 0 ? 0 : index;
   }
@@ -170,10 +166,8 @@ class _ScaffoldWithBottomNavBarState extends State<ScaffoldWithBottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
-
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         items: widget.tabs,

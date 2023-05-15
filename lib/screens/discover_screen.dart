@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:untitled2/genre.dart';
 import 'package:untitled2/shows.dart';
 import 'package:untitled2/GenreTab.dart';
-
 import 'package:flutter/material.dart';
 import 'package:untitled2/search.dart';
 import 'package:untitled2/shows.dart';
@@ -15,10 +14,6 @@ import 'package:untitled2/widgets/bottom_navigation_bar.dart';
 import '../model/model.dart';
 
 var userid = "Demo";
-
-
-
-
 
 class discoverscreen extends StatefulWidget {
 
@@ -47,8 +42,6 @@ class _discoverscreenState extends State<discoverscreen> {
 
   User? user = FirebaseAuth.instance.currentUser;
   UserModel currentuser = UserModel();
-
-
 
   Widget drawer(BuildContext context) {
     {
@@ -89,7 +82,6 @@ class _discoverscreenState extends State<discoverscreen> {
       );
     }
   }
-
   @override
   Widget build(BuildContext context) {
 
@@ -102,14 +94,11 @@ class _discoverscreenState extends State<discoverscreen> {
     actions: <Widget>[IconButton(onPressed: ()
     {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
-    return search();
+    return Search();
     }));
     },
     icon: Icon(Icons.search))],
     backgroundColor: Color.fromRGBO(17, 26, 41, 1),),
-
-
-
              body:Container(
                color: Color.fromRGBO(17, 26, 41, 1),
                child: Column(
